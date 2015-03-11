@@ -1,0 +1,28 @@
+{
+  "name": "rc-switch-he",
+  "version": "0.1.0",
+  "description": "Control your wireless power outlet sockets Home Easy device (dio,chacon) with RCSwitchHE for the Raspberry Pi ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "node-gyp rebuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ovanduynslaeger/rc-switch-he.git"
+  },
+  "keywords": [
+    "home",
+    "automation",
+    "api",
+    "rf",
+    "chacon",
+    "dio"
+  ],
+  "author": "Olivier Vanduynslaeger <o.vanduynslager@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ovanduynslaeger/rc-switch-he/issues"
+  },
+  "homepage": "https://github.com/ovanduynslaeger/rc-switch-he"
+}
