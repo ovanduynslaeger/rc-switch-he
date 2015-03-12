@@ -12,7 +12,7 @@ Node bindings for the [rcswitch RaspberryPi port](https://github.com/r10r/rcswit
 ## Usage
 
 ```javascript
-var rcswitchhe = require('rcswitchhe'); // Might throw an error if wiring pi init failed (no root)
+var rcswitchhe = require('rc-switch-he'); // Might throw an error if wiring pi init failed (no root)
 
 rcswitchhe.enableTransmit(0); // Use data Pin 0
 rcswitchhe.setRemoteCode();

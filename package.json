@@ -17,9 +17,10 @@
     "api",
     "rf",
     "chacon",
-    "dio"
+    "dio",
+    "homeeasy"
   ],
-  "author": "Olivier Vanduynslaeger <o.vanduynslager@gmail.com>",
+  "author": "Olivier Vanduynslaeger <o.vanduynslaeger@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ovanduynslaeger/rc-switch-he/issues"
