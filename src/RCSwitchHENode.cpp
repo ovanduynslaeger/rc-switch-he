@@ -108,5 +108,5 @@ extern "C" {
   static void init(Handle<Object> target) {
     RCSwitchHENode::Init(target);
   }
-  NODE_MODULE(rcswitch, init);
+  NODE_MODULE(rcswitchhe, init);
 }
