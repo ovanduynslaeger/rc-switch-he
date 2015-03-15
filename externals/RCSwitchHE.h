@@ -31,8 +31,8 @@ class RCSwitchHE {
     void setRemoteCode(int senderCode);
     
   private:
-    void scheduler_realtime();
-    void scheduler_standard();
+    //void scheduler_realtime();
+    //void scheduler_standard();
     void sendBit(bool b);
     unsigned long power2(int power);
     void itob(unsigned long integer, int length);
@@ -41,8 +41,6 @@ class RCSwitchHE {
     void transmit(int blnOn);
     
     int pin;
-    //bool bit2[26]={};              // 26 bit Identifiant emetteur
-    //bool bit2Interruptor[4]={}; 
     bool bit2[26];
     bool bit2Interruptor[4];
     int interruptor;
