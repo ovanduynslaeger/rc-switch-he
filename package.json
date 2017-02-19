@@ -1,6 +1,6 @@
 {
   "name": "rc-switch-he",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Control your wireless power outlet sockets Home Easy device (dio,chacon) with RCSwitchHE for the Raspberry Pi ",
   "main": "index.js",
   "scripts": {
