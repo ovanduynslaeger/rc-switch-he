@@ -20,7 +20,7 @@ void RCSwitchHENode::Init(v8::Local<v8::Object> exports) {
   Nan::SetPrototypeMethod(tpl, "enableTransmit", EnableTransmit);
   Nan::SetPrototypeMethod(tpl, "switchOn", SwitchOn);
   Nan::SetPrototypeMethod(tpl, "switchOff", SwitchOff);
-  Nan::SetPrototypeMethod(tpl, "setRemoteCode", SetRemoteCode);
+  //Nan::SetPrototypeMethod(tpl, "setRemoteCode", SetRemoteCode);
 
   constructor.Reset(tpl->GetFunction());
   exports->Set(Nan::New("RCSwitchHE").ToLocalChecked(), tpl->GetFunction());
@@ -67,7 +67,7 @@ Nan::HandleScope scope;
   v8::Local<v8::Value> swtch = info[1];
   thiz->rcswitch.setRemoteCode(group->Int32Value());
   return thiz->rcswitch.switchOn(swtch->Int32Value());
-  }
+}
 
 
 void RCSwitchHENode::SwitchOff(const Nan::FunctionCallbackInfo<v8::Value>& info) {
