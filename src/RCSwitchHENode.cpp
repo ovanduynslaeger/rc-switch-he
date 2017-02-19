@@ -1,114 +1,96 @@
-#include <v8.h>
-#include <node.h>
+#include "RCSwitchHENode.h"
 
-#include "../externals/RCSwitchHE.h"
+Nan::Persistent<v8::Function> RCSwitchHENode::constructor;
 
-using namespace v8;
+void RCSwitchHENode::Init(v8::Local<v8::Object> exports) {
+  Nan::HandleScope scope;
 
-class RCSwitchHENode : node::ObjectWrap {
-  private:
-    RCSwitchHE rcswitch;
-
-    #define switchOp(p1) { if(switchOn) thiz->rcswitch.switchOn((p1)); else thiz->rcswitch.switchOff((p1)); }
-    static v8::Handle<Value> SwitchOp(const Arguments& args, bool switchOn) {
-      v8::HandleScope scope;
-      RCSwitchHENode* thiz = node::ObjectWrap::Unwrap<RCSwitchHENode>(args.This());
-      
-      v8::Handle<Value> result = v8::Boolean::New(false);
-      if(args.Length() == 1) {
-        v8::Handle<v8::Value> swtch = args[0];
-
-        if(swtch->IsInt32()) {
-          switchOp(swtch->Int32Value());
-          result = v8::Boolean::New(true);
-        } 
-      } 
-
-      return result;
-    }
-
-  public:
-    RCSwitchHENode() { }
-    ~RCSwitchHENode() {}
-    
-    static v8::Persistent<FunctionTemplate> persistent_function_template;
-
-    static void Init(Handle<Object> target) {
-      /* Must be called once : cf rc-switch
-      if( wiringPiSetup() == -1 ) {
-        ThrowException( Exception::TypeError( String::New( "rcswitch: GPIO initialization failed" ) ) );
-        return;
-      }
-      */
-      v8::HandleScope scope;
-
-      v8::Local<FunctionTemplate> local_function_template = v8::FunctionTemplate::New(New);
-      RCSwitchHENode::persistent_function_template = v8::Persistent<FunctionTemplate>::New(local_function_template);
-      RCSwitchHENode::persistent_function_template->InstanceTemplate()->SetInternalFieldCount(1); // 1 since this is a constructor function
-      RCSwitchHENode::persistent_function_template->SetClassName(v8::String::NewSymbol("RCSwitchHE"));
-      
-      NODE_SET_PROTOTYPE_METHOD(RCSwitchHENode::persistent_function_template, "setRemoteCode", SetRemoteCode);
-      NODE_SET_PROTOTYPE_METHOD(RCSwitchHENode::persistent_function_template, "enableTransmit", EnableTransmit);
-      NODE_SET_PROTOTYPE_METHOD(RCSwitchHENode::persistent_function_template, "switchOn", SwitchOn);
-      NODE_SET_PROTOTYPE_METHOD(RCSwitchHENode::persistent_function_template, "switchOff", SwitchOff);
-      
-      target->Set(String::NewSymbol("RCSwitchHE"), RCSwitchHENode::persistent_function_template->GetFunction());
-    }
-
-    static Handle<Value> New(const Arguments& args) {
-      HandleScope scope;
-      
-      RCSwitchHENode* RCSwitchHENode_instance = new RCSwitchHENode();
-      RCSwitchHENode_instance->Wrap(args.This());
-      
-      return args.This();
-    }
-
-    // notification.enableTransmit();
-    static v8::Handle<Value> EnableTransmit(const Arguments& args) {
-      v8::HandleScope scope;
-      RCSwitchHENode* thiz = node::ObjectWrap::Unwrap<RCSwitchHENode>(args.This());
-      
-      v8::Handle<v8::Value> pinNr = args[0];
-      if(pinNr->IsInt32()) {
-        thiz->rcswitch.enableTransmit(pinNr->Int32Value());
-        return v8::Boolean::New(true);
-      } else {
-        return v8::Boolean::New(false);
-      }
-    }
-
-    static v8::Handle<Value> SwitchOn(const Arguments& args) {
-      return SwitchOp(args, true);
-    }
-    static v8::Handle<Value> SwitchOff(const Arguments& args) {
-      return SwitchOp(args, false);
-    }
-    static v8::Handle<Value> SetRemoteCode(const Arguments& args) {
-      v8::HandleScope scope;
-      RCSwitchHENode* thiz = node::ObjectWrap::Unwrap<RCSwitchHENode>(args.This());
-      
-      v8::Handle<Value> result = v8::Boolean::New(false);
-      if(args.Length() == 1) {
-        v8::Handle<v8::Value> remoteCode = args[0];
-
-        if(remoteCode->IsInt32()) {
-          thiz->rcswitch.setRemoteCode(remoteCode->Int32Value());
-          return v8::Boolean::New(true);
-        } else {
-          return v8::Boolean::New(false);
-        }
-      } 
-
-      return result;
-    }
-
-};
-
-v8::Persistent<FunctionTemplate> RCSwitchHENode::persistent_function_template;
-extern "C" {
-  static void init(Handle<Object> target) {
-    RCSwitchHENode::Init(target);
+  if( wiringPiSetup() == -1 ) {
+    Nan::ThrowTypeError("rcswitchhe: GPIO initialization failed");
+    return;
   }
-  NODE_MODULE(rcswitchhe, init);
+
+  // Prepare constructor template
+  v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
+  tpl->SetClassName(Nan::New("RCSwitchHE").ToLocalChecked());
+  tpl->InstanceTemplate()->SetInternalFieldCount(1); // 1 since this is a constructor function
+
+  //Nan::SetAccessor(tpl->InstanceTemplate(), Nan::New("protocol").ToLocalChecked(), GetProtocol); //, SetProtocol); TODO <- Error at compile-time... ?
+  //Nan::SetPrototypeMethod(tpl, "send", Send);
+
+  // Prototype
+    
+  //Nan::SetPrototypeMethod(tpl, "enableTransmit", EnableTransmit);
+  //Nan::SetPrototypeMethod(tpl, "disableTransmit", DisableTransmit);
+  Nan::SetPrototypeMethod(tpl, "switchOn", SwitchOn);
+  Nan::SetPrototypeMethod(tpl, "switchOff", SwitchOff);
+  //Nan::SetPrototypeMethod(tpl, "sendTriState", SendTriState);
+
+  constructor.Reset(tpl->GetFunction());
+  exports->Set(Nan::New("RCSwitchHE").ToLocalChecked(), tpl->GetFunction());
 }
+
+ RCSwitchHENode::RCSwitchHENode() {}
+ RCSwitchHENode::~RCSwitchHENode() {}
+
+
+void RCSwitchHENode::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  if (info.IsConstructCall()) {
+    // Invoked as constructor: `new MyObject(...)`
+    RCSwitchHENode* obj = new RCSwitchHENode();
+    obj->Wrap(info.This());
+    info.GetReturnValue().Set(info.This());
+  } else {
+    // Invoked as plain function `MyObject(...)`, turn into construct call.
+    const int argc = 0;
+    v8::Local<v8::Value> argv[argc];
+    v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
+    info.GetReturnValue().Set(cons->NewInstance(argc, argv));
+  }
+}
+
+/*
+void RCSwitchHENode::SwitchOp(const Nan::FunctionCallbackInfo<v8::Value>& info, bool switchOn) {
+  Nan::HandleScope scope;
+  RCSwitchHENode* thiz = ObjectWrap::Unwrap<RCSwitchHENode>(info.Holder());
+
+  info.GetReturnValue().Set(false);
+  if(info.Length() == 1) {
+    v8::Local<v8::Value> swtch = info[0];
+
+    if(swtch->IsInt32()) {
+      switchOp2(swtch->Int32Value());
+      info.GetReturnValue().Set(true);
+    } 
+  } 
+}
+*/
+
+// notification.enableTransmit();
+/*
+void RCSwitchHENode::EnableTransmit(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  Nan::HandleScope scope;
+  RCSwitchHENode* obj = ObjectWrap::Unwrap<RCSwitchHENode>(info.Holder());
+
+  v8::Local<v8::Value> pinNr = info[0];
+  if(pinNr->IsInt32()) {
+    obj->rcswitch.enableTransmit(pinNr->Int32Value());
+    info.GetReturnValue().Set(true);
+  } else {
+    info.GetReturnValue().Set(false);
+  }
+}
+*/
+
+void RCSwitchHENode::SwitchOn(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+Nan::HandleScope scope;
+    RCSwitchHENode* thiz = ObjectWrap::Unwrap<RCSwitchHENode>(info.Holder());
+v8::Local<v8::Value> swtch = info[0];
+  return thiz->rcswitch.switchOn(swtch->Int32Value());
+  }
+
+void RCSwitchHENode::SwitchOff(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  RCSwitchHENode* thiz = ObjectWrap::Unwrap<RCSwitchHENode>(info.Holder());
+  v8::Local<v8::Value> swtch = info[0];
+  return thiz->rcswitch.switchOff(swtch->Int32Value());
+  }

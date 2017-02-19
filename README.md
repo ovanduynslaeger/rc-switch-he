@@ -59,3 +59,4 @@ Return true.
 * 0.1.0 Initial release
 * 0.1.1 Node cpp correction
 * 0.1.2 Change documentation
+* 0.1.4 New version using nan
