@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/ovanduynslaeger/rc-switch-he/issues"
   },
-  "homepage": "https://github.com/ovanduynslaeger/rc-switch-he"
+  "homepage": "https://github.com/ovanduynslaeger/rc-switch-he",
   "dependencies": {
     "bindings": "^1.2.1",
     "nan": "^2.5.1"
