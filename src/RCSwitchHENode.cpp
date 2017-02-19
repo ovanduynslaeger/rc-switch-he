@@ -34,10 +34,12 @@ class RCSwitchHENode : node::ObjectWrap {
     static v8::Persistent<FunctionTemplate> persistent_function_template;
 
     static void Init(Handle<Object> target) {
+      /* Must be called once : cf rc-switch
       if( wiringPiSetup() == -1 ) {
         ThrowException( Exception::TypeError( String::New( "rcswitch: GPIO initialization failed" ) ) );
         return;
       }
+      */
       v8::HandleScope scope;
 
       v8::Local<FunctionTemplate> local_function_template = v8::FunctionTemplate::New(New);
