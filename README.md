@@ -62,3 +62,4 @@ Return true.
 * 0.1.4 New version using nan
 * 0.1.5 Nan bindings
 * 0.1.6 Enable transmit
+* 0.1.7 SetRemoteCode

@@ -15,16 +15,12 @@ void RCSwitchHENode::Init(v8::Local<v8::Object> exports) {
   tpl->SetClassName(Nan::New("RCSwitchHE").ToLocalChecked());
   tpl->InstanceTemplate()->SetInternalFieldCount(1); // 1 since this is a constructor function
 
-  //Nan::SetAccessor(tpl->InstanceTemplate(), Nan::New("protocol").ToLocalChecked(), GetProtocol); //, SetProtocol); TODO <- Error at compile-time... ?
-  //Nan::SetPrototypeMethod(tpl, "send", Send);
 
   // Prototype
-    
   Nan::SetPrototypeMethod(tpl, "enableTransmit", EnableTransmit);
-  //Nan::SetPrototypeMethod(tpl, "disableTransmit", DisableTransmit);
   Nan::SetPrototypeMethod(tpl, "switchOn", SwitchOn);
   Nan::SetPrototypeMethod(tpl, "switchOff", SwitchOff);
-  //Nan::SetPrototypeMethod(tpl, "sendTriState", SendTriState);
+  Nan::SetPrototypeMethod(tpl, "setRemoteCode", SetRemoteCode);
 
   constructor.Reset(tpl->GetFunction());
   exports->Set(Nan::New("RCSwitchHE").ToLocalChecked(), tpl->GetFunction());
@@ -49,22 +45,6 @@ void RCSwitchHENode::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   }
 }
 
-/*
-void RCSwitchHENode::SwitchOp(const Nan::FunctionCallbackInfo<v8::Value>& info, bool switchOn) {
-  Nan::HandleScope scope;
-  RCSwitchHENode* thiz = ObjectWrap::Unwrap<RCSwitchHENode>(info.Holder());
-
-  info.GetReturnValue().Set(false);
-  if(info.Length() == 1) {
-    v8::Local<v8::Value> swtch = info[0];
-
-    if(swtch->IsInt32()) {
-      switchOp2(swtch->Int32Value());
-      info.GetReturnValue().Set(true);
-    } 
-  } 
-}
-*/
 
 void RCSwitchHENode::EnableTransmit(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   Nan::HandleScope scope;
@@ -82,13 +62,18 @@ void RCSwitchHENode::EnableTransmit(const Nan::FunctionCallbackInfo<v8::Value>& 
 
 void RCSwitchHENode::SwitchOn(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 Nan::HandleScope scope;
-    RCSwitchHENode* thiz = ObjectWrap::Unwrap<RCSwitchHENode>(info.Holder());
-v8::Local<v8::Value> swtch = info[0];
+  RCSwitchHENode* thiz = ObjectWrap::Unwrap<RCSwitchHENode>(info.Holder());
+  v8::Local<v8::Value> group = info[0];
+  v8::Local<v8::Value> swtch = info[1];
+  thiz->rcswitch.setRemoteCode(group->Int32Value());
   return thiz->rcswitch.switchOn(swtch->Int32Value());
   }
 
+
 void RCSwitchHENode::SwitchOff(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   RCSwitchHENode* thiz = ObjectWrap::Unwrap<RCSwitchHENode>(info.Holder());
-  v8::Local<v8::Value> swtch = info[0];
+  v8::Local<v8::Value> group = info[0];
+  v8::Local<v8::Value> swtch = info[1];
+  thiz->rcswitch.setRemoteCode(group->Int32Value());
   return thiz->rcswitch.switchOff(swtch->Int32Value());
-  }
+}
