@@ -66,8 +66,6 @@ void RCSwitchHENode::SwitchOp(const Nan::FunctionCallbackInfo<v8::Value>& info, 
 }
 */
 
-// notification.enableTransmit();
-
 void RCSwitchHENode::EnableTransmit(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   Nan::HandleScope scope;
   RCSwitchHENode* obj = ObjectWrap::Unwrap<RCSwitchHENode>(info.Holder());
