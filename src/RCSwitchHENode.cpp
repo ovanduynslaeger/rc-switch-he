@@ -20,7 +20,7 @@ void RCSwitchHENode::Init(v8::Local<v8::Object> exports) {
 
   // Prototype
     
-  //Nan::SetPrototypeMethod(tpl, "enableTransmit", EnableTransmit);
+  Nan::SetPrototypeMethod(tpl, "enableTransmit", EnableTransmit);
   //Nan::SetPrototypeMethod(tpl, "disableTransmit", DisableTransmit);
   Nan::SetPrototypeMethod(tpl, "switchOn", SwitchOn);
   Nan::SetPrototypeMethod(tpl, "switchOff", SwitchOff);
@@ -67,7 +67,7 @@ void RCSwitchHENode::SwitchOp(const Nan::FunctionCallbackInfo<v8::Value>& info, 
 */
 
 // notification.enableTransmit();
-/*
+
 void RCSwitchHENode::EnableTransmit(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   Nan::HandleScope scope;
   RCSwitchHENode* obj = ObjectWrap::Unwrap<RCSwitchHENode>(info.Holder());
@@ -80,7 +80,7 @@ void RCSwitchHENode::EnableTransmit(const Nan::FunctionCallbackInfo<v8::Value>& 
     info.GetReturnValue().Set(false);
   }
 }
-*/
+
 
 void RCSwitchHENode::SwitchOn(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 Nan::HandleScope scope;

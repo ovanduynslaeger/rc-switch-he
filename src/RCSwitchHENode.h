@@ -21,7 +21,7 @@ class RCSwitchHENode : public Nan::ObjectWrap {
   static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
   //static void Send(const Nan::FunctionCallbackInfo<v8::Value>& info);
   //static void SendTriState(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  //static void EnableTransmit(const Nan::FunctionCallbackInfo<v8::Value>& info);
+  static void EnableTransmit(const Nan::FunctionCallbackInfo<v8::Value>& info);
   //static void DisableTransmit(const Nan::FunctionCallbackInfo<v8::Value>& info);
   static void SwitchOn(const Nan::FunctionCallbackInfo<v8::Value>& info);
   static void SwitchOff(const Nan::FunctionCallbackInfo<v8::Value>& info);
