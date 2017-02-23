@@ -186,11 +186,6 @@ void RCSwitchHE::switchOff(int nDevice) {
  * @param nTransmitterPin    Arduino Pin to which the sender is connected to
  */
 void RCSwitchHE::enableTransmit(int nTransmitterPin) {
-    /* if(wiringPiSetup() == -1)
-    {
-        //ERROR
-    }
-    */
     this->pin = nTransmitterPin;
     pinMode(nTransmitterPin, OUTPUT);
 }
