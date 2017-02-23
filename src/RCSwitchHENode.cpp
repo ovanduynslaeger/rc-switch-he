@@ -5,10 +5,12 @@ Nan::Persistent<v8::Function> RCSwitchHENode::constructor;
 void RCSwitchHENode::Init(v8::Local<v8::Object> exports) {
   Nan::HandleScope scope;
 
+  /* Uncomment if using alone
   if( wiringPiSetup() == -1 ) {
     Nan::ThrowTypeError("rcswitchhe: GPIO initialization failed");
     return;
   }
+  */
 
   // Prepare constructor template
   v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
@@ -20,7 +22,7 @@ void RCSwitchHENode::Init(v8::Local<v8::Object> exports) {
   Nan::SetPrototypeMethod(tpl, "enableTransmit", EnableTransmit);
   Nan::SetPrototypeMethod(tpl, "switchOn", SwitchOn);
   Nan::SetPrototypeMethod(tpl, "switchOff", SwitchOff);
-  //Nan::SetPrototypeMethod(tpl, "setRemoteCode", SetRemoteCode);
+  Nan::SetPrototypeMethod(tpl, "setRemoteCode", SetRemoteCode);
 
   constructor.Reset(tpl->GetFunction());
   exports->Set(Nan::New("RCSwitchHE").ToLocalChecked(), tpl->GetFunction());

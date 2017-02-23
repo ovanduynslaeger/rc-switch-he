@@ -15,9 +15,8 @@ Node bindings for the [rcswitch RaspberryPi port](https://github.com/r10r/rcswit
 var rcswitchhe = require('rc-switch-he'); // Might throw an error if wiring pi init failed (no root)
 
 rcswitchhe.enableTransmit(0); // Use data Pin 0
-rcswitchhe.setRemoteCode(12345678); //Set Remote Code you choose for Raspberry
-rcswitchhe.switchOn(1); // Switch on the first unit of 10110 (code 1x23x) group
-rcswitchhe.switchOff(2); // Switch off the second unit of 11000 (code 12xxx) group
+rcswitchhe.switchOn(12345678,1); // Switch on the first unit of 12345678 group
+rcswitchhe.switchOff(12345678,2); // Switch off the second unit of 12345678 group
 ```
 
 ## API
@@ -63,4 +62,5 @@ Return true.
 * 0.1.5 Nan bindings
 * 0.1.6 Enable transmit
 * 0.1.7 SetRemoteCode
-* 0.1.7 SetRemoteCode private
+* 0.1.8 SetRemoteCode private
+* 0.1.9 Remove wiringPiSetup because used by rcswitch
